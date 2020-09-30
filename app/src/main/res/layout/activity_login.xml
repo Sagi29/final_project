@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/login_LIL_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="@drawable/abc_vector_test"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/login_TXT_idnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID Number:"
+                android:textSize="22sp"
+                android:textColor="#6703F4"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/login_TXT_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PassWord:"
+                android:textSize="22sp"
+                android:textColor="#6703F4"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/login_TXT_KidengardenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kidengarden Name:"
+                android:textSize="22sp"
+                android:textColor="#6703F4"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/login_LIL_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/login_LIL_textView"
+            android:showDividers="middle"
+            android:divider="@drawable/abc_vector_test"
+            android:orientation="vertical">
+
+
+
+            <EditText
+                android:id="@+id/login_EDT_IDNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="ID Number"
+                android:textSize="22sp">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/login_EDT_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:textSize="22sp">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/login_EDT_KidengardenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Kidengarden Name"
+                android:textSize="22sp">
+
+            </EditText>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/login_BTN_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="200dp"/>
+
+
+        <Button
+            android:id="@+id/login_BTN_toRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To register"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"/>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

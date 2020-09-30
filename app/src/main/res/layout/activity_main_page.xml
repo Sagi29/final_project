@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainPage">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/mainPage_EDT_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="30dp"
+            android:text="update from today:"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/mainPage_EDT_updates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:maxLines="13"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/mainPage_BTN_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="calendar"
+            android:tag="calendar"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/mainPage_BTN_personalFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="personal file"
+            android:tag="personal"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/mainPage_BTN_songs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="songs"
+            android:tag="song"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/mainPage_BTN_worksheets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="download worksheets"
+            android:tag="worksheets"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
