@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID Number:"
+                android:text="Email:"
                 android:textStyle="bold"/>
 
             <TextView
@@ -49,14 +49,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password:"
+                android:text="Admin:"
                 android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Admin:"
+                android:text="Password:"
                 android:textStyle="bold"/>
+
 
         </LinearLayout>
 
@@ -79,12 +80,10 @@
                 android:hint="Name" />
 
             <EditText
-                android:id="@+id/registration_EDT_IDNumber"
+                android:id="@+id/registration_EDT_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="ID Number"
-                android:maxEms="9"
-                android:digits="0123456789"/>
+                android:hint="Email" />
 
             <EditText
                 android:id="@+id/registration_EDT_childName"
@@ -98,14 +97,24 @@
                 android:layout_height="wrap_content"
                 android:hint="Kidengarden Name"/>
 
+            <!--<EditText
+                android:id="@+id/registration_EDT_phonNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Phone" />-->
+
+
+            <CheckBox
+                android:id="@+id/registration_CKB_isAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
             <EditText
                 android:id="@+id/registration_EDT_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Password" />
-
-
-            <RadioGroup
+        <!--    <RadioGroup
                 android:id="@+id/registration_RDG_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:text="No"/>
 
-            </RadioGroup>
+            </RadioGroup>-->
 
         </LinearLayout>
 

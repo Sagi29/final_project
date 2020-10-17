@@ -22,10 +22,10 @@
 
 
             <TextView
-                android:id="@+id/login_TXT_idnumber"
+                android:id="@+id/login_TXT_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID Number:"
+                android:text="Email:"
                 android:textSize="22sp"
                 android:textColor="#6703F4"
                 android:textStyle="bold">
@@ -44,7 +44,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/login_TXT_KidengardenName"
+                android:id="@+id/login_TXT_KindergartenName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Kidengarden Name:"
@@ -69,7 +69,7 @@
 
 
             <EditText
-                android:id="@+id/login_EDT_IDNumber"
+                android:id="@+id/login_EDT_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="ID Number"
@@ -87,7 +87,7 @@
             </EditText>
 
             <EditText
-                android:id="@+id/login_EDT_KidengardenName"
+                android:id="@+id/login_EDT_KindergartenName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Kidengarden Name"
