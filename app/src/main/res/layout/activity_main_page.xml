@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainPage">
+    tools:context=".Activitys.MainPageActivity">
 
 
     <LinearLayout
@@ -71,6 +71,16 @@
             android:layout_height="wrap_content"
             android:text="download worksheets"
             android:tag="worksheets"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/mainPage_BTN_uploadWorksheets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="upload worksheets"
+            android:tag="uploadWorksheets"
             android:textSize="16sp"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="10dp"/>

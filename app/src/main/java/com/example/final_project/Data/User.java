@@ -1,4 +1,4 @@
-package com.example.final_project;
+package com.example.final_project.Data;
 
 import java.util.UUID;
 
@@ -92,4 +92,6 @@ public class User {
         this.uid = uid;
         return this;
     }
+
+
 }

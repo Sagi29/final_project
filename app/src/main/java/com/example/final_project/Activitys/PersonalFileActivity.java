@@ -1,4 +1,4 @@
-package com.example.final_project;
+package com.example.final_project.Activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class PersonalFile extends AppCompatActivity {
+import com.example.final_project.R;
+
+public class PersonalFileActivity extends AppCompatActivity {
 
     private EditText personalFile_EDT_comments;
     private Button personalFile_BTN_back;

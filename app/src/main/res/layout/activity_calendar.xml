@@ -4,6 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarActivity">
+    tools:context=".Activitys.CalendarActivity">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <CalendarView
+            android:id="@+id/calendar_CLV_calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/calendar_EDT_event"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/calendar_CLV_calendarView"/>
+
+        <Button
+            android:id="@+id/calendar_BTN_addEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendar_EDT_event"
+            android:layout_centerHorizontal="true"
+            android:text="add event"/>
+
+
+
+    </RelativeLayout>
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

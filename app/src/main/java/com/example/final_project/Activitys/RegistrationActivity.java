@@ -1,8 +1,11 @@
-package com.example.final_project;
+package com.example.final_project.Activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.final_project.Data.MySP;
+import com.google.gson.Gson;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.final_project.Data.Constants;
+import com.example.final_project.R;
+import com.example.final_project.Data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    final static String USER_PATH = "users/";
+
     private EditText registration_EDT_parentName;
     //private EditText registration_EDT_IDNumber;
     private EditText registration_EDT_childName;
@@ -38,9 +44,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button registration_BTN_done;
     private CheckBox registration_CKB_isAdmin;
 
+    private User userData;
+    private MySP mySP;
     private FirebaseAuth myAuth;
     private FirebaseDatabase database;
-    private DatabaseReference myRefUsers;
+    private  DatabaseReference myRefUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +56,12 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         findViewsByID();
-
+        mySP = new MySP(this);
         database = FirebaseDatabase.getInstance();
-        myRefUsers = database.getReference(USER_PATH);
+        myRefUsers = database.getReference(Constants.USER_PATH);
         myAuth = FirebaseAuth.getInstance();
         registration_BTN_done.setOnClickListener(doneButtonClicked);
+        Log.d("ptt","IN RegistrationActivity");
     }
 
     private View.OnClickListener doneButtonClicked = new View.OnClickListener(){
@@ -79,41 +88,31 @@ public class RegistrationActivity extends AppCompatActivity {
             final String email = registration_EDT_email.getText().toString();
             final String pass = registration_EDT_password.getText().toString();
             final boolean isAdmin;
+            Log.d("ptt","registration_CKB_isAdmin.isChecked() ->" + registration_CKB_isAdmin.isChecked());
             if(registration_CKB_isAdmin.isChecked())
                 isAdmin = true;
             else
                 isAdmin = false;
 
-            Log.d("ptt","in Fill&&&&");
 
             myAuth.createUserWithEmailAndPassword(email,pass).
                         addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    FirebaseUser user = myAuth.getCurrentUser();
+                                    FirebaseUser firebaseUser = myAuth.getCurrentUser();
 
-                                    String idUser = user.getUid();
+                                    String idUser = firebaseUser.getUid();
 
                                     //myRefUsers.child("email").setValue(new User(name,email,childName,kindergarten,isAdmin,pass));
-                                    myRefUsers.child(idUser.toString()).setValue(new User(idUser.toString(),name,email,childName,kindergarten,isAdmin,pass));
-                                    Log.d("ptt","user display name : "+user.getUid().toString());
+                                    User u = new User(idUser,name,email,childName,kindergarten,isAdmin,pass);
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(u);
+                                    mySP.putString(Constants.USER_DATA,json);
 
-                                    myRefUsers.child(idUser.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            // This method is called once with the initial value and again
-                                            // whenever data at this location is updated.
-                                            User user = dataSnapshot.getValue(User.class);
-                                            Log.d("pttt", "Value of email is : " + user.getEmail());
-                                        }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError error) {
-                                            // Failed to read value
-                                            Log.w("pttt", "Failed to read value.", error.toException());
-                                        }
-                                    });
+                                    Intent intent = new Intent(RegistrationActivity.this, MainPageActivity.class);
+                                    startActivity(intent);
 
                                 }
                                 else{
@@ -128,6 +127,27 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     }
+
+    private void getUserData(String idUser) {
+
+        myRefUsers.child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.d("ptt", "IN dataSnapshot RRRRRR ");
+                User u = dataSnapshot.getValue(User.class);
+                Log.d("ptt", "Value of email is : RRRRRRR   " + u.getEmail());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("ptt", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
 
     private void addToDataBase(String name) {
 
