@@ -34,6 +34,14 @@
             android:layout_centerHorizontal="true"
             android:text="add event"/>
 
+        <Button
+            android:id="@+id/calendar_BTN_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendar_BTN_addEvent"
+            android:layout_centerHorizontal="true"
+            android:text="back"/>
+
 
 
     </RelativeLayout>

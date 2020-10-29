@@ -25,11 +25,11 @@ public class CalendarActivity extends AppCompatActivity {
     private CalendarView calendar_CLV_calendarView;
     private TextView calendar_EDT_event;
     private Button calendar_BTN_addEvent;
-
+    private Button calendar_BTN_back;
 
     private DatabaseReference myRefKindergarten;
     private String date;
-    private boolean isAdmin;
+    private int isAdmin;
     private String kindergartenName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +38,11 @@ public class CalendarActivity extends AppCompatActivity {
 
         findViewsById();
 
-        isAdmin = getIntent().getBooleanExtra(Constants.IS_USER_ADMIN,false);
-        Log.d("ptt",""+isAdmin);
+        isAdmin = getIntent().getIntExtra(Constants.IS_USER_ADMIN,0);
+
         kindergartenName = getIntent().getStringExtra(Constants.KINDERGARTEN_NAME);
         myRefKindergarten = FireBase.getInstance().getReference(Constants.KINDERGARTEN_PATH).child(kindergartenName).child("eventMap");
-        if(isAdmin) {
+        if(isAdmin==1) {
             calendar_BTN_addEvent.setVisibility(View.VISIBLE);
         }
         else {
@@ -50,7 +50,12 @@ public class CalendarActivity extends AppCompatActivity {
             calendar_BTN_addEvent.setVisibility(View.INVISIBLE);
         }
 
-
+        calendar_BTN_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         calendar_BTN_addEvent.setOnClickListener(addEventButtonClicked);
         calendar_CLV_calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -88,8 +93,14 @@ public class CalendarActivity extends AppCompatActivity {
     private View.OnClickListener addEventButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String s = calendar_EDT_event.getText().toString();
-            myRefKindergarten.child(date).setValue(s);
+            if (calendar_EDT_event.getText() != "") {
+                String s = calendar_EDT_event.getText().toString();
+                myRefKindergarten.child(date).setValue(s);
+                Toast.makeText(CalendarActivity.this, "Add Event To this Date: success", Toast.LENGTH_LONG).show();
+            }
+            else
+                Toast.makeText(CalendarActivity.this, "Error! Add event to text", Toast.LENGTH_LONG).show();
+
         }
     };
 
@@ -97,5 +108,6 @@ public class CalendarActivity extends AppCompatActivity {
         calendar_CLV_calendarView = findViewById(R.id.calendar_CLV_calendarView);
         calendar_EDT_event = findViewById(R.id.calendar_EDT_event);
         calendar_BTN_addEvent = findViewById(R.id.calendar_BTN_addEvent);
+        calendar_BTN_back = findViewById(R.id.calendar_BTN_back);
     }
 }

@@ -2,6 +2,7 @@ package com.example.final_project.Activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.final_project.Data.Adapter_Song;
 import com.example.final_project.Data.Constants;
 import com.example.final_project.Data.FireBase;
 import com.example.final_project.Data.Kindergarten;
+import com.example.final_project.Data.MySP;
+import com.example.final_project.Data.Song;
 import com.example.final_project.Data.User;
+import com.example.final_project.Interfaces.MyCallback;
 import com.example.final_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.Date;
 
@@ -37,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button login_BTN_login;
     private Button login_BTN_toRegister;
 
+    //private User userData;
+    private MySP mySP;
     private FirebaseAuth myRefAuth;
     private DatabaseReference myRefUser;
 
@@ -46,10 +54,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         findViewsByID();
-        Log.v("tag","asdffffffgggggghhhh");
+        mySP = new MySP(this);
         myRefAuth = FirebaseAuth.getInstance();
         myRefUser = FireBase.getInstance().getReference(Constants.USER_PATH);
         login_BTN_login.setOnClickListener(loginToSystem);
+
+
+
         login_BTN_toRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +77,15 @@ public class LoginActivity extends AppCompatActivity {
     private View.OnClickListener loginToSystem = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
-            loginSystem();
+            if(login_EDT_email.getText().toString().matches("") ||
+                    login_EDT_password.getText().toString().matches("") ||
+                    login_EDT_KindergartenName.getText().toString().matches("") ){
+
+                Toast.makeText(LoginActivity.this, "Eror!! All fields must be filled out\n ", Toast.LENGTH_LONG).show();
+            }
+            else{
+                loginSystem();
+            }
         }
     };
 
@@ -77,31 +96,48 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 FirebaseUser user = myRefAuth.getCurrentUser();
-                                Toast.makeText(LoginActivity.this, "signInWithEmail:success", Toast.LENGTH_LONG).show();
+
                                 String uidUser = user.getUid();
-                                getUserData(uidUser);
-                                
+
+                                getUserData(uidUser,new MyCallback(){
+
+                                    @Override
+                                    public void onCallback(Object user) {
+                                        Toast.makeText(LoginActivity.this, "signInWithEmail:success", Toast.LENGTH_LONG).show();
+                                        Gson gson = new Gson();
+                                        String json = gson.toJson((User)user);
+                                        Toast.makeText(LoginActivity.this, "IN Login:(User)user :"+ ((User) user).getAdmin(), Toast.LENGTH_LONG).show();
+                                        mySP.putString(Constants.USER_DATA, json);
+                                        Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
 
                             }
                             else{
                                 Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
                             }
 
-
                         }
 
                     });
     }
 
-    private void getUserData(String uidUser) {
+    private void getUserData(String uidUser, final MyCallback myCallback) {
         myRefUser.child(uidUser).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                User u = dataSnapshot.getValue(User.class);
+                User userData = dataSnapshot.getValue(User.class);
+                int i = (Integer) dataSnapshot.child("admin").getValue();
                 Log.d("ptt", " myRefUser :->  " + myRefUser);
-                Log.d("ptt", "Value in user is: " + u.getEmail());
+                Log.d("ptt", "Value in user is -Admin-: " + i);
+                Log.d("ptt", "Value in user is: -Child-" + userData.getChildName());
+                Log.d("ptt", "Value in user is: -Kider-" + userData.getKindergartenName());
+                Log.d("ptt", "Value in user is: -mail-" + userData.getEmail());
+                myCallback.onCallback(userData);
 
             }
 

@@ -12,7 +12,7 @@ public class Kindergarten implements Cloneable{
     private String name;
     private String kindergartenTeacher;
     private String updatesForToday;
-    private ArrayList<String> songList = new ArrayList<>();
+    private ArrayList<Song> songList = new ArrayList<>();
     private Map<String,String> eventMap = new HashMap<String, String>();
 
 
@@ -24,7 +24,7 @@ public class Kindergarten implements Cloneable{
     public Kindergarten() { }
 
     public Kindergarten(/*String key,*/ String name, String kindergartenTeacher, String updatesForToday,
-                        ArrayList<String> songList, Map<String,String> eventMap) {
+                        ArrayList<Song> songList, Map<String,String> eventMap) {
         //this.key = key;
         this.name = name;
         this.kindergartenTeacher = kindergartenTeacher;
@@ -69,11 +69,11 @@ public class Kindergarten implements Cloneable{
         return this;
     }
 
-    public ArrayList<String> getSongList() {
+    public ArrayList<Song> getSongList() {
         return songList;
     }
 
-    public Kindergarten setSongList(ArrayList<String> songList) {
+    public Kindergarten setSongList(ArrayList<Song> songList) {
         this.songList = songList;
         return this;
     }

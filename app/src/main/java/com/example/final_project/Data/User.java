@@ -9,15 +9,16 @@ public class User {
     private String email;
     private String childName;
     private String kindergartenName;
-    private boolean isAdmin;
+    //private boolean isAdmin;
     private String password;
+    private int isAdmin; // 1=Admin  0=Not Admin
 
 
     public User() {this.uid = UUID.randomUUID().toString(); }
 
 
 
-    public User(String uid, String name, String email, String childName, String kindergartenName, boolean isAdmin, String password) {
+    public User(String uid, String name, String email, String childName, String kindergartenName, int isAdmin, String password) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -75,11 +76,11 @@ public class User {
         return this;
     }
 
-    public boolean isAdmin() {
+    public int getAdmin() {
         return isAdmin;
     }
 
-    public User setAdmin(boolean admin) {
+    public User setAdmin(int admin) {
         isAdmin = admin;
         return this;
     }

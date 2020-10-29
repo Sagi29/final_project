@@ -87,12 +87,13 @@ public class RegistrationActivity extends AppCompatActivity {
             final String kindergarten = registration_EDT_kindergartenName.getText().toString();
             final String email = registration_EDT_email.getText().toString();
             final String pass = registration_EDT_password.getText().toString();
-            final boolean isAdmin;
-            Log.d("ptt","registration_CKB_isAdmin.isChecked() ->" + registration_CKB_isAdmin.isChecked());
+            final byte isAdmin;
+            //Log.d("ptt","registration_CKB_isAdmin.isChecked() ->" + registration_CKB_isAdmin.isChecked());
+            Toast.makeText(RegistrationActivity.this, "registration_CKB_isAdmin.isChecked() ->"+ registration_CKB_isAdmin.isChecked(),Toast.LENGTH_SHORT).show();
             if(registration_CKB_isAdmin.isChecked())
-                isAdmin = true;
+                isAdmin = 1; //Admin
             else
-                isAdmin = false;
+                isAdmin = 0; //Not Admin
 
 
             myAuth.createUserWithEmailAndPassword(email,pass).
@@ -112,12 +113,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
                                     Intent intent = new Intent(RegistrationActivity.this, MainPageActivity.class);
+                                    intent.putExtra(Constants.PREVIOUS_ACTIVITY_NAME,"Registration");
                                     startActivity(intent);
+                                    finish();
 
                                 }
                                 else{
-                                    Toast.makeText(RegistrationActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -147,11 +149,6 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private void addToDataBase(String name) {
-
-    }
 
     private void findViewsByID() {
 

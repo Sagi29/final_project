@@ -85,6 +85,17 @@
             android:layout_marginTop="6dp"
             android:layout_marginLeft="10dp"/>
 
+        <Button
+            android:id="@+id/mainPage_BTN_signOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Out"
+            android:tag="sign out"
+            android:textSize="16sp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"/>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
