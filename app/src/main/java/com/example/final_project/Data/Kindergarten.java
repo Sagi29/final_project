@@ -1,5 +1,6 @@
 package com.example.final_project.Data;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,23 +15,25 @@ public class Kindergarten implements Cloneable{
     private String updatesForToday;
     private ArrayList<Song> songList = new ArrayList<>();
     private Map<String,String> eventMap = new HashMap<String, String>();
+    private ArrayList<String> fileList = new ArrayList<>();
 
 
 
-    protected Object clone() throws CloneNotSupportedException {
+    /*protected Object clone() throws CloneNotSupportedException {
         return super.clone();
-    }
+    }*/
 
     public Kindergarten() { }
 
     public Kindergarten(/*String key,*/ String name, String kindergartenTeacher, String updatesForToday,
-                        ArrayList<Song> songList, Map<String,String> eventMap) {
+                        ArrayList<Song> songList, Map<String,String> eventMap, ArrayList<String> fileList) {
         //this.key = key;
         this.name = name;
         this.kindergartenTeacher = kindergartenTeacher;
         this.updatesForToday = updatesForToday;
         this.songList = songList;
         this.eventMap = eventMap;
+        this.fileList = fileList;
     }
 
     /*public String getKey() {
@@ -84,6 +87,15 @@ public class Kindergarten implements Cloneable{
 
     public Kindergarten setEventMap(Map<String, String> eventMap) {
         this.eventMap = eventMap;
+        return this;
+    }
+
+    public ArrayList<String> getFileList() {
+        return fileList;
+    }
+
+    public Kindergarten setFileList(ArrayList<String> fileList) {
+        this.fileList = fileList;
         return this;
     }
 }

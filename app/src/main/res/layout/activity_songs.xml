@@ -10,12 +10,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DA1C1C">
+        android:background="#6193CDCD">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/song_LST_Songs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
 
         <Button
             android:id="@+id/song_BTN_back"
@@ -23,7 +25,34 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/song_LST_Songs"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:text="back"/>
+
+        <Button
+            android:id="@+id/song_BTN_addSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/song_BTN_back"
+            android:layout_centerHorizontal="true"
+            android:text="add song"/>
+
+        <EditText
+            android:id="@+id/song_EDT_songName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Song Name"
+            android:layout_below="@+id/song_BTN_addSong"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/song_EDT_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Song Length"
+            android:layout_below="@+id/song_EDT_songName"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"/>
 
 
 

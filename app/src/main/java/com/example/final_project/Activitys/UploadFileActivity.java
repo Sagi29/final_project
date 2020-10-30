@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.final_project.Data.Constants;
+import com.example.final_project.Data.FireBase;
 import com.example.final_project.R;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +35,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.net.URL;
+import java.util.ArrayList;
+
 public class UploadFileActivity extends AppCompatActivity {
 
 
@@ -44,12 +49,13 @@ public class UploadFileActivity extends AppCompatActivity {
     private ProgressBar upload_PRB_progressBar;
     private Button uploadFile_BTN_back;
     private Uri fileUri;
-
+    private ArrayList<String> fileList;
+    private String kName;
     //private ProgressBar progressBar;
 
     private FirebaseStorage storage;
     private FirebaseDatabase database;
-
+    private DatabaseReference myRefFileList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,10 @@ public class UploadFileActivity extends AppCompatActivity {
         uploadFile_BTN_fetch = findViewById(R.id.uploadFile_BTN_fetch);
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
+
+        fileList =  getIntent().getStringArrayListExtra(Constants.KINDERGARTEN_FILE_LIST);
+        kName = getIntent().getStringExtra(Constants.KINDERGARTEN_NAME);
+        myRefFileList = FireBase.getInstance().getReference(Constants.KINDERGARTEN_PATH).child(kName).child("fileList");
 
         uploadFile_BTN_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,13 +128,14 @@ public class UploadFileActivity extends AppCompatActivity {
 
         final String fileName = System.currentTimeMillis()+ "";
         StorageReference storageReference = storage.getReference();
-        storageReference.child("Uploads").child(fileName).putFile(fileUri)
+        storageReference.child("Uploads").child(kName).putFile(fileUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                DatabaseReference databaseReference = database.getReference();
-                databaseReference.child(fileName).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                fileList.add(url);
+                //DatabaseReference databaseReference = database.getReference();
+                myRefFileList.setValue(fileList).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful())

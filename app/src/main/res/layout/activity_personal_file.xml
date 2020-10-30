@@ -28,12 +28,11 @@
                 android:id="@+id/personalFile_EDT_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginLeft="10dp"
                 android:maxLines="20"
                 android:textSize="14sp"
                 android:background="#3E03DAC5"/>
-
 
             <Button
                 android:id="@+id/personalFile_BTN_back"

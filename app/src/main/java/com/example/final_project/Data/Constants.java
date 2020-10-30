@@ -10,5 +10,6 @@ public class Constants {
     public final static String IS_USER_ADMIN = "is user admin";
     public final static String KINDERGARTEN_NAME = "kindergarten name";
     public final static String PREVIOUS_ACTIVITY_NAME = "previous activity name";
+    public final static String KINDERGARTEN_FILE_LIST = "kindergarten file list";
 
 }

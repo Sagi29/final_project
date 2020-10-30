@@ -21,7 +21,9 @@ import com.example.final_project.Data.Kindergarten;
 import com.example.final_project.Data.MySP;
 import com.example.final_project.Data.Song;
 import com.example.final_project.Data.User;
+import com.example.final_project.Interfaces.MyCallback;
 import com.example.final_project.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -56,6 +60,7 @@ public class MainPageActivity extends AppCompatActivity {
    private Button mainPage_BTN_worksheets;
    private Button mainPage_BTN_uploadWorksheets;
    private Button mainPage_BTN_signOut;
+   private Button mainPage_BTN_save;
 
    private MySP mySP;
    private User currentUserData;
@@ -77,7 +82,8 @@ public class MainPageActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
         myRefUsers = database.getReference(Constants.USER_PATH);
-        myRefKindergarten = database.getReference(Constants.KINDERGARTEN_PATH);
+        //myRefKindergarten = database.getReference(Constants.KINDERGARTEN_PATH);
+
 
 
         //get current user info & save in database
@@ -91,18 +97,23 @@ public class MainPageActivity extends AppCompatActivity {
             myRefUsers.child(currentUserData.getUid()).setValue(currentUserData);
             // writeUserData();
         }
+
         myRefKindergarten = database.getReference(Constants.KINDERGARTEN_PATH).child(currentUserData.getKindergartenName());
 
 
-        getKindergartenData();
-        if(currentKindergartenData != null)
-            Log.d("pkk","currentKindergartenData.getName() ->" + currentKindergartenData.getName());
-        addKindergarten();
+        //addKindergarten();
+        getKindergartenData(new MyCallback() {
+            @Override
+            public void onCallback(Object object) {
+                //set update of week.
+                mainPage_EDT_updates.setText(currentKindergartenData.getUpdatesForToday());
+            }
+        });
+
 
         //set Date of today.
         mainPage_EDT_date.setText(Calendar.getInstance().getTime().toString());
-        //set update of week.
-        mainPage_EDT_updates.setText("Updates is will come");
+
 
         mainPage_BTN_signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,35 +127,40 @@ public class MainPageActivity extends AppCompatActivity {
         mainPage_BTN_personalFile.setOnClickListener(buttonClicked);
         mainPage_BTN_songs.setOnClickListener(buttonClicked);
         mainPage_BTN_uploadWorksheets.setOnClickListener(buttonClicked);
+        mainPage_BTN_save.setOnClickListener(buttonClicked);
         Toast.makeText(MainPageActivity.this, "Main  is admin ->"+currentUserData.getAdmin(),Toast.LENGTH_SHORT).show();
         Log.d("ptt","currentUserData.isAdmin() -> " + currentUserData.getAdmin());
-        if(currentUserData.getAdmin() == 1)
+        if(currentUserData.getAdmin() == 1) { // User Is Admin
             mainPage_BTN_uploadWorksheets.setVisibility(View.VISIBLE);
-        else
+            mainPage_EDT_updates.setEnabled(true);
+            mainPage_BTN_save.setVisibility(View.VISIBLE);
+        }
+        else {
             mainPage_BTN_uploadWorksheets.setVisibility(View.INVISIBLE);
+            mainPage_EDT_updates.setEnabled(false);
+            mainPage_BTN_save.setVisibility(View.INVISIBLE);
+        }
     }
 
-    private void getKindergartenData() {
+    private void getKindergartenData(final MyCallback myCallback) {//
 
         myRefKindergarten.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        currentKindergartenData = snapshot.getValue(Kindergarten.class);
-                        if(currentKindergartenData != null)
-                            Log.d("ptt","getKindergartenData - > addListenerForSingleValueEvent :  " + currentKindergartenData.getKindergartenTeacher());
-                        else
-                            Log.d("ptt","getKindergartenData - > addListenerForSingleValueEvent :  not read!!");
-                    }
 
+                        Log.d("ptt", "myRefKindergarten" + myRefKindergarten);
+                        currentKindergartenData = (Kindergarten)snapshot.getValue(Kindergarten.class);
+                        myCallback.onCallback(currentKindergartenData);
+                    }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(MainPageActivity.this, "Failed to read Kindergarten",Toast.LENGTH_SHORT).show();
                         Log.d("ptt", "Failed to read Kindergarten.", error.toException());
                     }
                 });
-
     }
 
-    private void writeUserData() {
+    /*private void writeUserData() {
 
         myRefUsers.child(currentUserData.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -162,7 +178,7 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     private View.OnClickListener buttonClicked = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
@@ -182,88 +198,60 @@ public class MainPageActivity extends AppCompatActivity {
                 else
                 if (((String) view.getTag()).equals(mainPage_BTN_uploadWorksheets.getTag().toString()))
                     upload();
-                    //uploadWorkSheets();
+                else
+                if (((String) view.getTag()).equals(mainPage_BTN_save.getTag().toString()))
+                    saveUpdateForDay();
+
 
 
 
         }
     };
 
+    private void saveUpdateForDay() {
+
+        if(mainPage_EDT_updates.getText().toString().matches(""))
+            Toast.makeText(MainPageActivity.this,"Fill Update fields",Toast.LENGTH_LONG).show();
+        else {
+            myRefKindergarten.child("updatesForToday").setValue(mainPage_EDT_updates.getText().toString());
+            Toast.makeText(MainPageActivity.this,"Successfully Update..",Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void upload() {
         Intent intent = new Intent(this, UploadFileActivity.class);
+        intent.putExtra(Constants.KINDERGARTEN_NAME,currentUserData.getKindergartenName());
+        intent.putStringArrayListExtra(Constants.KINDERGARTEN_FILE_LIST,currentKindergartenData.getFileList());
         startActivity(intent);
     }
 
-   /* private void uploadWorkSheets() {
-
-        Log.d("ptt","IN uploadWorkSheets");
-        Intent intent = new Intent();
-        intent.setType("");
-        intent.putExtra(intent.EXTRA_ALLOW_MULTIPLE,true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent,30);
-    }*/
-
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == RESULT_LOAD_FILE && resultCode == RESULT_OK){
-            StorageReference pathToUpload;
-            if(data.getClipData() != null){
-
-                Log.d("ptt","IN onActivityResult");
-                int totalItemsSelected = data.getClipData().getItemCount();
-
-
-                for(int i = 0 ; i<totalItemsSelected; i++){
-                    Log.d("ptt","IN for with index: "+i);
-                    *//*Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-                    StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
-                    uploadTask = riversRef.putFile(file);
-                    Uri.fro*//*
-                    Uri uriFile = data.getClipData().getItemAt(i).getUri();
-                    String fileName = getFileName(uriFile);
-                    uriFile = Uri.fromFile(new File(fileName));
-                    pathToUpload = storageRef.child("kindergarten").child("WorkSheets").child(fileName);
-                    UploadOneFile(pathToUpload,uriFile);
-                }
-
-                Log.d("ptt", "SELECT MULTY File ");
-            }
-            else if(data.getData() != null){
-                Uri uriFile = data.getClipData().getItemAt(0).getUri();
-                String fileName = getFileName(uriFile);
-                pathToUpload = storageRef.child("kindergarten").child("WorkSheets").child(fileName);
-                UploadOneFile(pathToUpload,uriFile);
-                Log.d("ptt", "SELECT one File ");
-            }
-        }
-    }
-*/
- /*   private void UploadOneFile(StorageReference pathToUpload, Uri uriFile) {
-        pathToUpload.putFile(uriFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(MainPageActivity.this,"Done Uploading",Toast.LENGTH_LONG).show();
-            }
-        });
-    }*/
-
     private void openWorkSheetsActivity() {
 
+        storageRef.child("Uploads").child(currentUserData.getKindergartenName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                Toast.makeText(MainPageActivity.this,"Downloads files, please wait...",Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Toast.makeText(MainPageActivity.this,"Failed to download Files",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void openSongsActivity() {
         Intent intent = new Intent(this, SongsActivity.class);
         intent.putExtra(Constants.KINDERGARTEN_NAME,currentUserData.getKindergartenName());
+        intent.putExtra(Constants.IS_USER_ADMIN,currentUserData.getAdmin());
         startActivity(intent);
     }
 
     private void openPersonalFileActivity() {
         Intent intent = new Intent(this, PersonalFileActivity.class);
-
+        intent.putExtra(Constants.USER_Uid,currentUserData.getPersonalFile());
         startActivity(intent);
     }
 
@@ -308,10 +296,11 @@ public class MainPageActivity extends AppCompatActivity {
         String updates = "update...";
         ArrayList<Song> songList = new ArrayList<>();
         Map<String,String> eventMap = new HashMap<String, String>();
-        Kindergarten kindergarten = new Kindergarten(currentUserData.getKindergartenName(), currentUserData.getName(),updates,songList,eventMap);
+        ArrayList<String> fileList = new ArrayList<>();
+        Kindergarten kindergarten = new Kindergarten(currentUserData.getKindergartenName(), currentUserData.getName(),updates,songList,eventMap,fileList);
         kindergarten.getSongList().add(new Song("Aviv",3.24f));
         kindergarten.getSongList().add(new Song("Peshach",2.16f));
-        kindergarten.getSongList().add(new Song("Summer",4.06f));
+        kindergarten.getSongList().add(new Song("Sukot",4.06f));
 
 
         kindergarten.getEventMap().put("24-10-2020","Holeday");
@@ -332,5 +321,6 @@ public class MainPageActivity extends AppCompatActivity {
         mainPage_BTN_worksheets= findViewById(R.id.mainPage_BTN_worksheets);
         mainPage_BTN_uploadWorksheets = findViewById(R.id.mainPage_BTN_uploadWorksheets);
         mainPage_BTN_signOut = findViewById(R.id.mainPage_BTN_signOut);
+        mainPage_BTN_save = findViewById(R.id.mainPage_BTN_save);
     }
 }

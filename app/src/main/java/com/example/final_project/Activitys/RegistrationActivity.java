@@ -61,7 +61,6 @@ public class RegistrationActivity extends AppCompatActivity {
         myRefUsers = database.getReference(Constants.USER_PATH);
         myAuth = FirebaseAuth.getInstance();
         registration_BTN_done.setOnClickListener(doneButtonClicked);
-        Log.d("ptt","IN RegistrationActivity");
     }
 
     private View.OnClickListener doneButtonClicked = new View.OnClickListener(){
@@ -106,7 +105,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                     String idUser = firebaseUser.getUid();
 
                                     //myRefUsers.child("email").setValue(new User(name,email,childName,kindergarten,isAdmin,pass));
-                                    User u = new User(idUser,name,email,childName,kindergarten,isAdmin,pass);
+                                    User u = new User(idUser,name,email,childName,kindergarten,isAdmin,pass,"Empty");
                                     Gson gson = new Gson();
                                     String json = gson.toJson(u);
                                     mySP.putString(Constants.USER_DATA,json);

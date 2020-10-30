@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 });
-
                             }
                             else{
                                 Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
@@ -128,17 +127,8 @@ public class LoginActivity extends AppCompatActivity {
         myRefUser.child(uidUser).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 User userData = dataSnapshot.getValue(User.class);
-                int i = (Integer) dataSnapshot.child("admin").getValue();
-                Log.d("ptt", " myRefUser :->  " + myRefUser);
-                Log.d("ptt", "Value in user is -Admin-: " + i);
-                Log.d("ptt", "Value in user is: -Child-" + userData.getChildName());
-                Log.d("ptt", "Value in user is: -Kider-" + userData.getKindergartenName());
-                Log.d("ptt", "Value in user is: -mail-" + userData.getEmail());
                 myCallback.onCallback(userData);
-
             }
 
             @Override

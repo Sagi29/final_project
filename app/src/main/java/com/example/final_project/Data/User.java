@@ -12,13 +12,14 @@ public class User {
     //private boolean isAdmin;
     private String password;
     private int isAdmin; // 1=Admin  0=Not Admin
+    private String personalFile;
 
 
     public User() {this.uid = UUID.randomUUID().toString(); }
 
 
 
-    public User(String uid, String name, String email, String childName, String kindergartenName, int isAdmin, String password) {
+    public User(String uid, String name, String email, String childName, String kindergartenName, int isAdmin, String password,String personalFile) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -26,6 +27,7 @@ public class User {
         this.kindergartenName = kindergartenName;
         this.isAdmin = isAdmin;
         this.password = password;
+        this.personalFile = personalFile;
     }
 
 
@@ -94,5 +96,12 @@ public class User {
         return this;
     }
 
+    public String getPersonalFile() {
+        return personalFile;
+    }
 
+    public User setPersonalFile(String personalFile) {
+        this.personalFile = personalFile;
+        return this;
+    }
 }
