@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText login_EDT_password;
     private Button login_BTN_login;
     private Button login_BTN_toRegister;
+    private Button login_BTN_exit;
 
     //private User userData;
     private MySP mySP;
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         myRefUser = FireBase.getInstance().getReference(Constants.USER_PATH);
         login_BTN_login.setOnClickListener(loginToSystem);
 
-
+        //login_EDT_password.setTransformationMethod(new PasswordTransformationMethod());
 
         login_BTN_toRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,13 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        login_BTN_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishAndRemoveTask();
             }
         });
     }
@@ -96,17 +105,16 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 FirebaseUser user = myRefAuth.getCurrentUser();
-
+                                Toast.makeText(LoginActivity.this, "signInWithEmail:success", Toast.LENGTH_LONG).show();
                                 String uidUser = user.getUid();
 
                                 getUserData(uidUser,new MyCallback(){
 
                                     @Override
                                     public void onCallback(Object user) {
-                                        Toast.makeText(LoginActivity.this, "signInWithEmail:success", Toast.LENGTH_LONG).show();
+
                                         Gson gson = new Gson();
                                         String json = gson.toJson((User)user);
-                                        Toast.makeText(LoginActivity.this, "IN Login:(User)user :"+ ((User) user).getAdmin(), Toast.LENGTH_LONG).show();
                                         mySP.putString(Constants.USER_DATA, json);
                                         Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
                                         startActivity(intent);
@@ -145,5 +153,6 @@ public class LoginActivity extends AppCompatActivity {
         login_EDT_password = findViewById(R.id.login_EDT_password);
         login_BTN_login = findViewById(R.id.login_BTN_login);
         login_BTN_toRegister = findViewById(R.id.login_BTN_toRegister);
+        login_BTN_exit = findViewById(R.id.login_BTN_exit);
     }
 }

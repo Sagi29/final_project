@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class SongsActivity extends AppCompatActivity {
 
-    private RecyclerView song_LST_Songs;
+    private RecyclerView song_RCV_Songs;
     private Button song_BTN_back;
     private EditText song_EDT_length;
     private EditText song_EDT_songName;
@@ -42,7 +42,7 @@ public class SongsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
 
-        song_LST_Songs = findViewById(R.id.song_LST_Songs);
+        song_RCV_Songs = findViewById(R.id.song_RCV_Songs);
         song_BTN_back = findViewById(R.id.song_BTN_back);
         song_EDT_length = findViewById(R.id.song_EDT_length);
         song_EDT_songName= findViewById(R.id.song_EDT_songName);
@@ -80,8 +80,8 @@ public class SongsActivity extends AppCompatActivity {
             public void onCallback(Object song) {
                 songList.add((Song) song);
                 Adapter_Song adapter_song = new Adapter_Song(SongsActivity.this, songList);
-                song_LST_Songs.setLayoutManager(new LinearLayoutManager(SongsActivity.this));
-                song_LST_Songs.setAdapter(adapter_song);
+                song_RCV_Songs.setLayoutManager(new LinearLayoutManager(SongsActivity.this));
+                song_RCV_Songs.setAdapter(adapter_song);
             }
         });
     }

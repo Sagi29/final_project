@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Kindergarten implements Cloneable{
 
-    //private String key;
     private String name;
     private String kindergartenTeacher;
     private String updatesForToday;
@@ -18,16 +16,10 @@ public class Kindergarten implements Cloneable{
     private ArrayList<String> fileList = new ArrayList<>();
 
 
-
-    /*protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }*/
-
     public Kindergarten() { }
 
     public Kindergarten(/*String key,*/ String name, String kindergartenTeacher, String updatesForToday,
                         ArrayList<Song> songList, Map<String,String> eventMap, ArrayList<String> fileList) {
-        //this.key = key;
         this.name = name;
         this.kindergartenTeacher = kindergartenTeacher;
         this.updatesForToday = updatesForToday;
@@ -36,14 +28,6 @@ public class Kindergarten implements Cloneable{
         this.fileList = fileList;
     }
 
-    /*public String getKey() {
-        return key;
-    }
-
-    public Kindergarten setKey(String key) {
-        this.key = key;
-        return this;
-    }*/
 
     public String getName() {
         return name;

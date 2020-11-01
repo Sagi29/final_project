@@ -137,13 +137,22 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/registration_BTN_done"
+        android:id="@+id/registration_BTN_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="done"/>
+
+        <Button
+            android:id="@+id/registration_BTN_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="false"
             android:layout_marginBottom="20dp"
-            android:text="done"/>
+            android:text="exit"/>
 
 
     </RelativeLayout>

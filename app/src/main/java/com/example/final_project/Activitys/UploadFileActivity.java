@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,14 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.final_project.Data.Constants;
 import com.example.final_project.Data.FireBase;
 import com.example.final_project.R;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,14 +32,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 public class UploadFileActivity extends AppCompatActivity {
 
 
 
-    private Button uploadFile_BTN_upload, uploadFile_BTN_fetch;
+    private Button uploadFile_BTN_upload;
     private TextView uploadFile_TXT_file;
     private Button uploadFile_BTN_select;
 
@@ -67,7 +63,6 @@ public class UploadFileActivity extends AppCompatActivity {
         uploadFile_BTN_select= findViewById(R.id.uploadFile_BTN_select);
         upload_PRB_progressBar = findViewById(R.id.upload_PRB_progressBar);
         uploadFile_BTN_back = findViewById(R.id.uploadFile_BTN_back);
-        uploadFile_BTN_fetch = findViewById(R.id.uploadFile_BTN_fetch);
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
 
@@ -81,15 +76,6 @@ public class UploadFileActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        uploadFile_BTN_fetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
 
         uploadFile_BTN_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,17 +101,6 @@ public class UploadFileActivity extends AppCompatActivity {
     }
 
     private void uploadFile(Uri fileUri) {
-        //upload_PRB_progressBar = new ProgressBar(UploadFileActivity.this,null,android.R.attr.progressBarStyleHorizontal);
-        //upload_PRB_progressBar.setTransitionName("Uploading file...");
-
-        //upload_PRB_progressBar.setProgress(0);
-        //RelativeLayout layout = new RelativeLayout(UploadFileActivity.this);
-        //upload_PRB_progressBar.setVisibility(View.VISIBLE);
-        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
-        //params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        //layout.addView(upload_PRB_progressBar,params);
-        //setContentView(layout);
-
         final String fileName = System.currentTimeMillis()+ "";
         StorageReference storageReference = storage.getReference();
         storageReference.child("Uploads").child(kName).putFile(fileUri)

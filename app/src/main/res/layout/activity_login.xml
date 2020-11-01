@@ -103,9 +103,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="login"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/login_LIL_EditText"
+           android:layout_marginTop="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="200dp"/>
+            />
 
 
         <Button
@@ -113,9 +114,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To register"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/login_BTN_login"
+            android:layout_marginTop="80dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"/>
+            />
+
+
+        <Button
+            android:id="@+id/login_BTN_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="exit"
+            android:layout_below="@+id/login_BTN_toRegister"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true" />
 
 
 

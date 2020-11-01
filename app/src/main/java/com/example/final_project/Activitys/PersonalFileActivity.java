@@ -8,9 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.final_project.Data.Constants;
-import com.example.final_project.Data.FireBase;
 import com.example.final_project.R;
-import com.google.firebase.database.DatabaseReference;
 
 public class PersonalFileActivity extends AppCompatActivity {
 

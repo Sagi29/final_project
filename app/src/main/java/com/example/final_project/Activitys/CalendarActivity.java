@@ -2,9 +2,7 @@ package com.example.final_project.Activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -62,7 +60,7 @@ public class CalendarActivity extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
                 //calendar_EDT_event.setText("Date: " + i2 + " / " + i1 + " / " + i);
                 date =  i2 + "-" + i1 + "-" + i;
-                Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_SHORT).show();
 
                 myRefKindergarten.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -70,8 +68,6 @@ public class CalendarActivity extends AppCompatActivity {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
                         String s = dataSnapshot.getValue(String.class);
-                        Log.d("ptt", "  myRefKindergarten.child(date) :->  " + myRefKindergarten.child(date));
-                        Log.d("ptt", "Value in event map is: " + s);
                         if(s != null)
                             calendar_EDT_event.setText(s);
                         else
